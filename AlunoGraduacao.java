@@ -98,7 +98,16 @@ public class AlunoGraduacao extends Aluno {
         // menos 1) e converta o total em ano + período: cada 2 semestres
         // avançam 1 ano em getAnoInicio(), e o resto da divisão por 2 diz se o
         // aluno está no período 1 ou no 2.
-        return "";
+        int semestreAtual = getTempoDecorrido();
+        int periodoAtual;
+
+        if (semestreAtual%2==0) {
+            periodoAtual = 2;
+        } else {
+            periodoAtual = 1;
+        }
+
+        return String.format("%s.%d",ANO_ATUAL,periodoAtual);
     }
 
     @Override
