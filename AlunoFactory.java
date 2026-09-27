@@ -31,24 +31,25 @@ public class AlunoFactory {
 
         String chave = tipo.trim().toUpperCase();
 
-        if (chave.equals("TECNICO")) {
-            return new AlunoTecnico(matricula, nome);
-        }
         // TODO 4.1: "GRADUACAO" deve criar um AlunoGraduacao.
-
         // TODO 4.2: "POS" deve criar um AlunoPosGraduacao.
-
         // TODO 4.3: quando o tipo nao for reconhecido, imprima um aviso
         // informando os tipos validos com getTiposDisponiveis() e retorne null.
 
-        // Para pensar: faria sentido implementar switch case aqui?
-
-        return null;
+        return switch (chave) {
+            case "TECNICO" -> new AlunoTecnico(matricula, nome);
+            case "GRADUACAO" -> new AlunoGraduacao(matricula, nome);
+            default -> {
+                System.out.println("[aviso] Tipo de aluno não informado corretamente, insira um dessas:"
+                        + getTiposDisponiveis());
+                yield null;
+            }
+        };
     }
 
     public static String getTiposDisponiveis() {
         // TODO 4.4: mantenha esta lista em dia conforme voce registra os tipos:
         // Ex.: "TECNICO, GRADUACAO, NOVO TIPO"
-        return "TECNICO";
+        return "TECNICO, GRADUACAO";
     }
 }
