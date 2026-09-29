@@ -171,7 +171,6 @@ public class SistemaNotasView {
         roberto.setInicioDoCurso("08/2025");
         roberto.lancarNota("7.9");
         roberto.lancarNota("8.6");
-        roberto.lancarNota("9.8");
         System.out.println(roberto.getSituacao());
         System.out.println(roberto.getClass().getSimpleName());
         System.out.println("------------------------------------------------------------");

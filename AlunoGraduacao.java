@@ -73,6 +73,12 @@ public class AlunoGraduacao extends Aluno {
         // TODO 2.3: aplique a regra da graduação usando MEDIA_APROVACAO e
         // MEDIA_REPROVACAO. Devolva APROVADO, RECUPERACAO ou REPROVADO
         // (constantes herdadas de Aluno).
+        
+        // Caso não possua notas suficiente para avaliar a situação, devolva NAO_AVALIADO.
+        if (getNotas().size() < TOTAL_UNIDADES) {
+            return NAO_AVALIADO;
+        }
+
         if (getMedia() >= MEDIA_APROVACAO) {
             return APROVADO;
         } else if (getMedia() >= MEDIA_REPROVACAO) {

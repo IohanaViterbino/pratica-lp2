@@ -94,5 +94,5 @@ método?**
 **Por que `getMedia()` é `private` nas subclasses e `getNotas()` devolve uma
 cópia da lista?**
 
-**O que acontece com um aluno cuja nota/conceito não foi lançado?** (descreva a
-decisão que você tomou)
+**O que acontece com um aluno cuja nota/conceito não foi lançado?** 
+Caso o aluno não possua as notas suficiente para avaliar a situação, é retornado como Não Avaliado.
