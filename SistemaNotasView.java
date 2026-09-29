@@ -156,6 +156,32 @@ public class SistemaNotasView {
      */
     private static void demonstrarTipoEstaticoEDinamico() {
         System.out.println("===== TIPO ESTATICO x TIPO DINAMICO =====");
+
+        Aluno chico = AlunoFactory.criar("TECNICO", "2025001", "Chico Xavier");
+        chico.setInicioDoCurso("03/2025");
+        chico.lancarNota("8.7");
+        chico.lancarNota("9.2");
+        chico.lancarNota("9");
+        chico.lancarNota("9.6");
+        System.out.println(chico.getSituacao());
+        System.out.println(chico.getClass().getSimpleName());
+        System.out.println("------------------------------------------------------------");
+
+        Aluno roberto = AlunoFactory.criar("GRADUACAO", "2025006", "Roberto Carlos");
+        roberto.setInicioDoCurso("08/2025");
+        roberto.lancarNota("7.9");
+        roberto.lancarNota("8.6");
+        roberto.lancarNota("9.8");
+        System.out.println(roberto.getSituacao());
+        System.out.println(roberto.getClass().getSimpleName());
+        System.out.println("------------------------------------------------------------");
+
+        // Aluno pos = AlunoFactory.criar("POS", "2026009", "Isaac Newton");
+        // pos.setInicioDoCurso("01/2026");
+        // pos.lancarNota("A");
+        // System.out.println(pos.getSituacao());
+        // System.out.println(pos.getClass().getSimpleName());
+
         System.out.println();
     }
 
