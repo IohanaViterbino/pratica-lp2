@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 /**
  * Aluno de pós-graduação (Especialização/Mestrado/Doutorado).
  *
@@ -16,6 +18,7 @@
 public class AlunoPosGraduacao extends Aluno {
 
     public static final int PRAZO_MAXIMO_MESES = 24;
+    public static final String[] NOTAS = {"A","B","C","D"};
 
     // Como na graduação, o mês de curso não é guardado: ele é calculado a
     // partir do início do curso, que fica na superclasse.
@@ -23,61 +26,70 @@ public class AlunoPosGraduacao extends Aluno {
         super(matricula, nome);
     }
 
+    // talvez essa classe esteja com problema
     @Override
     public void lancarNota(String valor) {
-        // TODO 3.1: aceite apenas "A", "B", "C" ou "D" (ignorando espaços e
-        // maiúsculas/minúsculas) e recuse um segundo lançamento de conceito,
-        // sempre imprimindo um aviso antes de sair do método.
-        // Quando o valor for válido, chame super.lancarNota(...) para guardá-lo.
+        boolean isLetraValida = Arrays.asList(NOTAS).contains(valor.trim().toUpperCase());
+        if (getNotas().size() > 1) {
+            System.out.println("[aviso] Cursos de Pós-graduação só aceitam uma única nota. Nota ignorada: " + valor);
+            return;
+        }
+        if (isLetraValida) {
+            super.lancarNota(valor);
+        } else {
+            System.out.println("[aviso] letra inválida (use uma letra de A a D). Nota ignorada: " + valor);
+            return;
+        }
     }
 
-    /**
-     * O conceito lançado, ou "-" enquanto nada foi lançado. Auxiliar private:
-     * para o cliente, quem responde é getDesempenho().
-     */
     private String getConceito() {
-        // TODO 3.2: devolva o primeiro item de getNotas(), ou "-" se a lista
-        // ainda estiver vazia.
+        if (getNotas().size() > 0) {
+            return getNotas().getFirst();
+        }
         return "-";
     }
 
     @Override
     public String getSituacao() {
-        // TODO 3.3: A ou B aprovado, C recuperação, D reprovado.
-        // Decida também o que responder quando o conceito ainda não foi lançado
-        // e explique a decisão em um comentário curto.
+        if (getConceito() == "A" || getConceito() == "B") {
+            return APROVADO;
+        }
+        if (getConceito() == "C") {
+            return RECUPERACAO;
+        }
+        if (getConceito() == "D") {
+            return REPROVADO;
+        }
+        // achei melhor deixar como NAO_AVALIADO mesmo
         return NAO_AVALIADO;
     }
 
     @Override
     public String getDesempenho() {
-        // TODO 3.4: devolva algo como "Conceito: B".
-        return "";
+        return "Conceito: " + getConceito();
     }
 
     @Override
     public String getPeriodoAtual() {
-        // TODO 3.5: devolva algo como "8o mês".
-        return "";
+        int semestreAtual = getTempoDecorrido();
+        return semestreAtual + "o mês";
     }
 
     @Override
     public int getTempoDecorrido() {
-        // TODO 3.6: em qual mês de curso o aluno está? Aqui a conta é a mais
-        // direta das três: getMesesDecorridos() (herdado de Aluno) já está em
-        // meses, e quem acabou de entrar está no 1o mês.
-        return 0;
+        if (getMesesDecorridos() == 1) {
+            return 1;
+        }
+        return getMesesDecorridos();
     }
 
     @Override
     public int getPrazoMaximo() {
-        // TODO item 3.7
-        return 0;
+        return PRAZO_MAXIMO_MESES;
     }
 
     @Override
     public String getUnidadeDePrazo() {
-        // TODO item 3.8
-        return "";
+        return "mes(es)";
     }
 }

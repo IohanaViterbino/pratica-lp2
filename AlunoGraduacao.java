@@ -34,11 +34,6 @@ public class AlunoGraduacao extends Aluno {
 
     @Override
     public void lancarNota(String valor) {
-        // TODO 2.1: recuse a nota quando o aluno já tiver TOTAL_UNIDADES notas lançadas
-        // ou quando o valor não for uma nota numérica valida.
-        // é possível reaproveitar o método ehNotaNumericaValida(valor) herdado de Aluno?
-        // Por outro lado, se estiver tudo certo, chame super.lancarNota(valor) para a
-        // superclasse guardar a nota na lista.
         if (getNotas().size() >= TOTAL_UNIDADES) {
             System.out.println(
                     "[aviso] O curso de graduação tem apenas " + TOTAL_UNIDADES
@@ -70,15 +65,6 @@ public class AlunoGraduacao extends Aluno {
 
     @Override
     public String getSituacao() {
-        // TODO 2.3: aplique a regra da graduação usando MEDIA_APROVACAO e
-        // MEDIA_REPROVACAO. Devolva APROVADO, RECUPERACAO ou REPROVADO
-        // (constantes herdadas de Aluno).
-        
-        // Caso não possua notas suficiente para avaliar a situação, devolva NAO_AVALIADO.
-        if (getNotas().size() < TOTAL_UNIDADES) {
-            return NAO_AVALIADO;
-        }
-
         if (getMedia() >= MEDIA_APROVACAO) {
             return APROVADO;
         } else if (getMedia() >= MEDIA_REPROVACAO) {
@@ -89,8 +75,6 @@ public class AlunoGraduacao extends Aluno {
 
     @Override
     public String getDesempenho() {
-        // TODO 2.4: devolva algo como "Média: 7,50" (veja String.format).
-
         return String.format("Media: %.2f", getMedia());
     }
 
@@ -127,7 +111,6 @@ public class AlunoGraduacao extends Aluno {
 
     @Override
     public int getPrazoMaximo() {
-        // TODO 2.7
         return PRAZO_MAXIMO_SEMESTRES;
     }
 
