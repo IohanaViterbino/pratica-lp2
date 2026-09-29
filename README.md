@@ -78,6 +78,8 @@ Veja o enunciado completo em `Pratica02.pdf`. Em resumo:
 **Comandos para compilar e executar:**
 
 ```bash
+javac -d out *.java
+java -cp out SistemaNotasView
 
 ```
 
