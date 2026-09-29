@@ -42,6 +42,10 @@ public class SistemaNotasView {
         celine.setInicioDoCurso("03/2023");
         turma.add(celine);
 
+        Aluno maria = AlunoFactory.criar("POS", "2021034", "Maria Cecília");
+        maria.setInicioDoCurso("05/2025");
+        turma.add(maria);
+
         // TODO 5.1: depois de terminar o item 4, crie alunos com AlunoFactory.criar(...)
         // a partir do texto do tipo - como um sistema real faria ao ler um formulário
         // ou um banco de dados. Por exemplo:
@@ -74,6 +78,7 @@ public class SistemaNotasView {
         lancarNotas(turma.get(0), "8.0", "7.5", "6.0", "9.0");
         lancarNotas(turma.get(1), "4.0", "3.0", "5.0", "2.0");
         lancarNotas(turma.get(2), "6.0", "8.0", "5.5");
+        lancarNotas(turma.get(3), "D");
         // TODO 5.3: lance as notas dos demais alunos (3 notas para a
         // graduação, 1 conceito para a pós-graduação).
 

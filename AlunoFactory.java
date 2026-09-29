@@ -11,7 +11,7 @@
  * A vantagem de usarmos esse padrão de projeto é que:
  * para adicionar novos tipos de aluno, alteramos apenas este arquivo,
  * mantendo todo o resto do sistema funcionando. Isto é escalável.
- *
+ * 
  * Todo aluno sai da fábrica como CALOURO: o início do curso dele é a data de
  * referência do sistema (Aluno.ANO_ATUAL e Aluno.MES_ATUAL). Para colocar o
  * aluno em outro ponto do curso, o cliente chama setInicioDoCurso("mes/ano")
@@ -39,6 +39,7 @@ public class AlunoFactory {
         return switch (chave) {
             case "TECNICO" -> new AlunoTecnico(matricula, nome);
             case "GRADUACAO" -> new AlunoGraduacao(matricula, nome);
+            case "POS" -> new AlunoPosGraduacao(matricula, nome);
             default -> {
                 System.out.println("[aviso] Tipo de aluno não informado corretamente, insira um dessas:"
                         + getTiposDisponiveis());
@@ -50,6 +51,6 @@ public class AlunoFactory {
     public static String getTiposDisponiveis() {
         // TODO 4.4: mantenha esta lista em dia conforme voce registra os tipos:
         // Ex.: "TECNICO, GRADUACAO, NOVO TIPO"
-        return "TECNICO, GRADUACAO";
+        return "TECNICO, GRADUACAO, POS";
     }
 }
