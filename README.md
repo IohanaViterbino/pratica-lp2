@@ -69,28 +69,27 @@ Veja o enunciado completo em `Pratica02.pdf`. Em resumo:
 
 ## PREENCHA ABAIXO (item 7)
 
-**Nomes:**
+**Nomes:**  IOHANA MARIA BARROSO DA SILVA VITERBINO, LORENNA MIRELY DE SOUSA SILVA
 
-**Matrículas:**
+**Matrículas:** 20250065181, 20250029292 
 
-**Versão do JDK utilizada:** (saída de `java -version`)
+**Versão do JDK utilizada:** java 24.0.1 e 21.0.9
 
 **Comandos para compilar e executar:**
+Decidimos manter o comandos sugeridos.   
 
 ```bash
-
+# a partir da pasta do projeto
+javac -d out *.java
+java -cp out SistemaNotasView
 ```
 
-**Quarto tipo de aluno criado (item 5):** qual é, quais regras ele segue e
-quantos arquivos você precisou alterar fora da classe nova.
+**Quarto tipo de aluno criado (item 5):** Não implementamos uma nova subclasse de Aluno. 
 
-**Por que o cliente consegue tratar todos os alunos do mesmo jeito?**
+**Por que o cliente consegue tratar todos os alunos do mesmo jeito?**  Porque todos eles herdam da mesma superclasse e seguem a mesma interface de métodos. O polimorfismo permite que cada subclasse execute esse contrato de acordo com suas próprias regras.
 
-**Por que o cliente não precisa de `instanceof` nem de casting em nenhum
-método?**
+**Por que o cliente não precisa de `instanceof` nem de casting em nenhum método?**  Porque a superclasse Aluno define os métodos comuns a todos os tipos de alunos, enquanto as subclasses implementam ou sobrescrevem os métodos de acordo com suas próprias regras de negócio. Assim, o cliente pode manipular todos os objetos por meio de uma referência do tipo Aluno, já que em tempo de execução, o Java indentificará qual implementação sobrescrita deverá ser executada.
 
-**Por que `getMedia()` é `private` nas subclasses e `getNotas()` devolve uma
-cópia da lista?**
+**Por que `getMedia()` é `private` nas subclasses e `getNotas()` devolve uma cópia da lista?**  getMedia() é private porque o cálculo da média é feito internamente em cada subclasse para determinar a situação do aluno. Além disso, cada subclasse possui uma forma diferente de calcular a nota final. Já o método getNotas() retorna uma cópia da lista para impedir alterações diretas das notas armazenadas dentro do objeto. 
 
-**O que acontece com um aluno cuja nota/conceito não foi lançado?** (descreva a
-decisão que você tomou)
+**O que acontece com um aluno cuja nota/conceito não foi lançado?** Caso o aluno não possua notas o suficiente para avaliar a situação, é retornado como 'Não avaliado'.

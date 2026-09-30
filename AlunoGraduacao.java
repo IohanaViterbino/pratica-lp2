@@ -53,8 +53,6 @@ public class AlunoGraduacao extends Aluno {
     // Auxiliar private, como em AlunoTecnico: para o cliente, quem responde é
     // getDesempenho(). Ninguém de fora precisa (nem deve) chamar getMedia().
     private double getMedia() {
-        // TODO 2.2: some as notas de getNotas() usando
-        // converterParaNumero(nota) e divida por TOTAL_UNIDADES.
         double soma = 0.0;
         for (String nota : getNotas()) {
             soma += converterParaNumero(nota);
@@ -65,7 +63,9 @@ public class AlunoGraduacao extends Aluno {
 
     @Override
     public String getSituacao() {
-        if (getMedia() >= MEDIA_APROVACAO) {
+        if (getNotas().size() < TOTAL_UNIDADES) {
+            return  NAO_AVALIADO;
+        } else if (getMedia() >= MEDIA_APROVACAO) {
             return APROVADO;
         } else if (getMedia() >= MEDIA_REPROVACAO) {
             return RECUPERACAO;
@@ -80,14 +80,6 @@ public class AlunoGraduacao extends Aluno {
 
     @Override
     public String getPeriodoAtual() {
-        // TODO 2.5: devolva o período no formato ano.periodo (ex.: "2026.1"),
-        // calculado a partir do início do curso.
-        // Um caminho: quem entrou de janeiro a junho (getMesInicio() <= 6)
-        // entrou no período 1; de julho a dezembro, no período 2. Some a esse
-        // período de entrada os semestres já decorridos (getTempoDecorrido()
-        // menos 1) e converta o total em ano + período: cada 2 semestres
-        // avançam 1 ano em getAnoInicio(), e o resto da divisão por 2 diz se o
-        // aluno está no período 1 ou no 2.
         int semestreAtual = getTempoDecorrido();
         int periodoAtual;
 
@@ -102,10 +94,6 @@ public class AlunoGraduacao extends Aluno {
 
     @Override
     public int getTempoDecorrido() {
-        // TODO 2.6: em qual semestre o aluno está? Use getMesesDecorridos()
-        // (herdado de Aluno): cada 6 meses é um semestre completo e quem
-        // acabou de entrar já está no 1o. Compare com getTempoDecorrido() de
-        // AlunoTecnico, que faz a mesma conta em anos.
         return getMesesDecorridos() / 6 + 1;
     }
 
@@ -116,7 +104,6 @@ public class AlunoGraduacao extends Aluno {
 
     @Override
     public String getUnidadeDePrazo() {
-        // TODO 2.8: a unidade de tempo deste tipo de aluno.
         return "semestre(s)";
     }
 }
