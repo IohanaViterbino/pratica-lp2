@@ -27,7 +27,6 @@ public class AlunoPosGraduacao extends Aluno {
         super(matricula, nome);
     }
 
-    // talvez essa classe esteja com problema
     @Override
     public void lancarNota(String valor) {
         if (valor == null) {
