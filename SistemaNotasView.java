@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Cliente das classes de aluno: o programa que lança notas e imprime o
@@ -27,99 +28,127 @@ public class SistemaNotasView {
     private static ArrayList<Aluno> montarTurma() {
         ArrayList<Aluno> turma = new ArrayList<Aluno>();
 
-        // Dois alunos em pontos diferentes do curso - os dois criados pela
-        // fábrica, porque esta classe nunca instancia uma subclasse.
-        // A única informação de tempo que o cliente informa é o INÍCIO DO
-        // CURSO; quem transforma isso em ano, semestre ou mês é cada aluno.
-        Aluno einstein = AlunoFactory.criar("TECNICO", "2026001", "Albert Einstein");
-        turma.add(einstein); // calouro: a fábrica já o cria começando agora
+        // Aluno técnico calouro
+        Aluno einstein = AlunoFactory.criar(
+                "TECNICO",
+                "2026001",
+                "Albert Einstein"
+        );
+        turma.add(einstein);
 
-        Aluno noether = AlunoFactory.criar("TECNICO", "2021005", "Emmy Noether");
-        noether.setInicioDoCurso("03/2021"); // 6o ano: prazo estourado
+        // Técnico com prazo estourado
+        Aluno noether = AlunoFactory.criar(
+                "TECNICO",
+                "2021005",
+                "Emmy Noether"
+        );
+        noether.setInicioDoCurso("03/2021");
         turma.add(noether);
 
-        Aluno celine = AlunoFactory.criar("GRADUACAO", "2025048", "Celine Dion");
+        // Graduação
+        Aluno celine = AlunoFactory.criar(
+                "GRADUACAO",
+                "2025048",
+                "Celine Dion"
+        );
         celine.setInicioDoCurso("03/2023");
         turma.add(celine);
 
-        Aluno maria = AlunoFactory.criar("POS", "2021034", "Maria Cecília");
+        // Pós-graduação
+        Aluno maria = AlunoFactory.criar(
+                "POS",
+                "2021034",
+                "Maria Cecília"
+        );
         maria.setInicioDoCurso("05/2025");
         turma.add(maria);
 
-        // TODO 5.1: depois de terminar o item 4, crie alunos com AlunoFactory.criar(...)
-        // a partir do texto do tipo - como um sistema real faria ao ler um formulário
-        // ou um banco de dados. Por exemplo:
-        //
-        //     String[][] matriculas = {
-        //         {"TECNICO",   "2026002", "Blaise Pascal",    "03/2026"},
-        //         {"GRADUACAO", "2026003", "Cecilia Payne",    "03/2026"},
-        //         {"POS",       "2026004", "Dmitri Mendeleev", "03/2026"},
-        //     };
-        //     for (int i = 0; i < matriculas.length; i++) {
-        //         Aluno aluno = AlunoFactory.criar(
-        //             matriculas[i][0],
-        //             matriculas[i][1],
-        //             matriculas[i][2]
-        //         );
-        //         if (aluno != null) {
-        //             aluno.setInicioDoCurso(matriculas[i][3]);
-        //             turma.add(aluno);
-        //         }
-        //     }
-        //
-        // TODO 5.2: inclua também um aluno de graduação e um de pós-graduação
-        // com início de curso antigo, para testar as regras de prazo. Repare
-        // que a mesma chamada setInicioDoCurso("03/2020") deixa a graduação no
-        // 13o semestre e a pós-graduação no 73o mês: a data é a mesma, a
-        // leitura que cada curso faz dela é que muda.
+        // -------------------------------------------------------------
+        // TODO 5.1 / 5.2
+        // Criação dos demais alunos usando a fábrica.
+        // -------------------------------------------------------------
 
-        // Lançamento de notas: a MESMA chamada serve para qualquer tipo de
-        // aluno. Cada objeto interpreta o valor recebido a sua maneira.
+        String[][] matriculas = {
+                {"TECNICO", "2026002", "Blaise Pascal", "03/2026"},
+                {"GRADUACAO", "2026003", "Cecilia Payne", "03/2026"},
+                {"POS", "2026004", "Dmitri Mendeleev", "03/2026"},
+
+                // Casos antigos para testar prazo
+                {"GRADUACAO", "2020001", "Ada Lovelace", "03/2020"},
+                {"POS", "2020002", "Alan Turing", "03/2020"}
+        };
+
+        for (int i = 0; i < matriculas.length; i++) {
+            Aluno aluno = AlunoFactory.criar(
+                    matriculas[i][0],
+                    matriculas[i][1],
+                    matriculas[i][2]
+            );
+
+            if (aluno != null) {
+                aluno.setInicioDoCurso(matriculas[i][3]);
+                turma.add(aluno);
+            }
+        }
+
+        // -------------------------------------------------------------
+        // Lançamento das notas
+        // -------------------------------------------------------------
+
         lancarNotas(turma.get(0), "8.0", "7.5", "6.0", "9.0");
         lancarNotas(turma.get(1), "4.0", "3.0", "5.0", "2.0");
         lancarNotas(turma.get(2), "6.0", "8.0", "5.5");
         lancarNotas(turma.get(3), "D");
-        // TODO 5.3: lance as notas dos demais alunos (3 notas para a
-        // graduação, 1 conceito para a pós-graduação).
+
+        // Demais alunos
+        lancarNotas(turma.get(4), "9.0", "8.5", "9.5", "10.0");
+        lancarNotas(turma.get(5), "6.0", "5.0", "4.5");
+        lancarNotas(turma.get(6), "C");
+        lancarNotas(turma.get(7), "7.0", "7.5", "8.0");
+        lancarNotas(turma.get(8), "B");
 
         return turma;
     }
 
-    /** Lança várias notas de um aluno qualquer, sem saber o tipo dele. */
     private static void lancarNotas(Aluno aluno, String... valores) {
-        for (int i = 0; i < valores.length; i++) {
-            aluno.lancarNota(valores[i]);
+        for (String valore : valores) {
+            aluno.lancarNota(valore);
         }
     }
 
-    /**
-     * Item 5 - EXEMPLO JÁ PRONTO de código polimórfico.
-     *
-     * Nenhum instanceof, nenhum casting, nenhum if por tipo de aluno: o laço
-     * abaixo continua funcionando mesmo depois que você criar o quarto tipo
-     * de aluno do item 6.
-     */
     private static void imprimirRelatorio(ArrayList<Aluno> turma) {
-        System.out.println("===== RELATORIO DA TURMA =====");
-        System.out.printf(
-            "%-10s %-22s %-10s %-22s %s%n",
-            "MATRICULA", "NOME", "PERIODO", "DESEMPENHO", "SITUACAO"
-        );
-        for (Aluno aluno : turma) {
-            // imprimirInformacoes() está escrito APENAS na classe Aluno (tipo estático),
-            // mas os métodos que ele chama são os da subclasse do objeto (tipo dinâmico).
-            aluno.imprimirInformacoes();
+        System.out.println("===== RESUMO POR SITUACAO =====");
+
+        HashMap<String, Integer> contagem = new HashMap<String, Integer>();
+
+        String[] situacoes = {
+                Aluno.APROVADO,
+                Aluno.RECUPERACAO,
+                Aluno.REPROVADO,
+                Aluno.NAO_AVALIADO
+        };
+
+        for (String situacao : situacoes) {
+            contagem.put(situacao, 0);
         }
+
+        for (Aluno aluno : turma) {
+            String situacao = aluno.getSituacao();
+            int quantidadeAtual = contagem.getOrDefault(situacao, 0);
+            contagem.put(situacao, quantidadeAtual + 1);
+        }
+
+        for (String situacoe : situacoes) {
+            System.out.println(
+                    situacoe + ": " + contagem.get(situacoe)
+            );
+        }
+
         System.out.println();
     }
 
     /**
-     * TODO 5.4: conte quantos alunos estão em cada situação e imprima o resumo.
-     * Sugestão: um HashMap<String, Integer> e o vetor de situações abaixo,
-     * que usa as constantes de Aluno. Não use instanceof aqui.
-     *
-     *     String[] situacoes = {Aluno.APROVADO, Aluno.RECUPERACAO,
-     *                           Aluno.REPROVADO, Aluno.NAO_AVALIADO};
+     * Conta quantos alunos existem em cada situação.
      */
     private static void imprimirResumoPorSituacao(ArrayList<Aluno> turma) {
         System.out.println("===== RESUMO POR SITUACAO =====");
@@ -127,59 +156,150 @@ public class SistemaNotasView {
     }
 
     /**
-     * TODO 5.5: para cada aluno, imprima o nome, o prazo (getPrazo()) e se
-     * ele ainda está dentro do prazo de integralização (estaNoPrazo() e
-     * getTempoRestante()). Repare que a unidade de tempo muda de um tipo para
-     * outro, mas o cédigo aqui é um só. Mostre também getInicioDoCurso(): é a
-     * data de onde todos esses números são calculados.
+     * Mostra o prazo de cada aluno e informa se ele ainda está dentro
+     * do prazo de integralização.
      */
     private static void imprimirAlertasDePrazo(ArrayList<Aluno> turma) {
         System.out.println("===== PRAZO DE INTEGRALIZACAO =====");
+        for (Aluno aluno : turma) {
+            System.out.println("Aluno: " + aluno.getNome());
+            System.out.println(
+                    "Inicio do curso: " + aluno.getInicioDoCurso()
+            );
+            System.out.println(
+                    "Prazo: " + aluno.getPrazo()
+            );
+
+            if (aluno.estaNoPrazo()) {
+                System.out.println(
+                        "Situacao do prazo: Dentro do prazo"
+                );
+                System.out.println(
+                        "Tempo restante: "
+                                + aluno.getTempoRestante()
+                                + " "
+                                + aluno.getUnidadeDePrazo()
+                );
+            } else {
+                System.out.println(
+                        "Situacao do prazo: Prazo estourado"
+                );
+                System.out.println(
+                        "Tempo restante: "
+                                + aluno.getTempoRestante()
+                                + " "
+                                + aluno.getUnidadeDePrazo()
+                );
+            }
+            System.out.println(
+                    "------------------------------------------------------------"
+            );
+        }
         System.out.println();
     }
 
     /**
-     * TODO 5.6: demonstre tipo estático x tipo dinâmico (Aula 05).
-     * Declare uma variável do tipo Aluno, aponte-a para objetos de subclasses
-     * diferentes e chame os MESMOS métodos, mostrando que a implementação
-     * executada é a da classe do objeto (late binding). Por exemplo:
-     *
-     *     Aluno a = AlunoFactory.criar("TECNICO", "2026008", "Heinrich Hertz");
-     *     a.setInicioDoCurso("03/2025");
-     *     a.lancarNota("10.0");
-     *     System.out.println(a.getSituacao());
-     *
-     *     a = AlunoFactory.criar("POS", "2026009", "Isaac Newton");
-     *     a.setInicioDoCurso("01/2026");
-     *     a.lancarNota("A");
-     *     System.out.println(a.getSituacao());
-     *
-     * Inclua também um objeto criado com "new Aluno(...)" e observe o que
-     * acontece: como a superclasse não conhece a regra de nenhum curso, a
-     * situação dele sai como "Nao avaliado".
-     * Use a.getClass().getSimpleName() para exibir o tipo dinâmico.
+     * Demonstra tipo estático e tipo dinâmico.
      */
     private static void demonstrarTipoEstaticoEDinamico() {
         System.out.println("===== TIPO ESTATICO x TIPO DINAMICO =====");
+
+        Aluno chico = AlunoFactory.criar("TECNICO", "2025001", "Chico Xavier");
+        chico.setInicioDoCurso("03/2025");
+        chico.lancarNota("8.7");
+        chico.lancarNota("9.2");
+        chico.lancarNota("9");
+        chico.lancarNota("9.6");
+        System.out.println(chico.getSituacao());
+        System.out.println("Desempenho: " + chico.getDesempenho());
+        System.out.println(chico.getClass().getSimpleName());
+        System.out.println("------------------------------------------------------------");
+
+        Aluno roberto = AlunoFactory.criar("GRADUACAO", "2025006", "Roberto Carlos");
+        roberto.setInicioDoCurso("08/2025");
+        roberto.lancarNota("7.9");
+        roberto.lancarNota("8.6");
+        System.out.println(roberto.getSituacao());
+        System.out.println("Desempenho: " + roberto.getDesempenho());
+        System.out.println(roberto.getClass().getSimpleName());
+        System.out.println("------------------------------------------------------------");
+
+         Aluno pos = AlunoFactory.criar("POS", "2026009", "Isaac Newton");
+         pos.setInicioDoCurso("01/2026");
+         pos.lancarNota("C");
+         System.out.println(pos.getSituacao());
+        System.out.println("Desempenho: " + pos.getDesempenho());
+         System.out.println(pos.getClass().getSimpleName());
+
         System.out.println();
     }
 
     /**
-     * TODO 5.7: complete os casos de borda (casos de falha/erro).
-     * Cada bloco deve imprimir o que aconteceu e o programa deve seguir em frente:
-     * - tipo de aluno inexistente na AlunoFactory (cuidado com o null devolvido),
-     * - conceito inválido na pós-graduação (ex.: E, F, Z),
-     * - nota fora do intervalo [0, 10], texto que não é número,
-     * - e notas em excesso.
+     * Demonstra alguns casos de falha.
      */
     private static void demonstrarCasosDeBorda() {
         System.out.println("===== CASOS DE BORDA =====");
         System.out.println("Tipos aceitos pela fabrica: " + AlunoFactory.getTiposDisponiveis());
 
+        // 1. Tipo inexistente
         Aluno desconhecido = AlunoFactory.criar("MESTRADO", "2026011", "Katherine Johnson");
         System.out.println("Aluno criado para o tipo MESTRADO: " + desconhecido);
 
-        // TODO 5.7: acrescente os demais casos de borda.
+        if (desconhecido == null) {
+            System.out.println("Resultado: nenhum aluno foi criado.");
+        }
+        System.out.println("------------------------------------------------------------");
+
+        // 2. Conceito invalido na pós-graduação
+        Aluno posInvalida = AlunoFactory.criar("POS","2026012","Grace Hopper");
+        posInvalida.lancarNota("E");
+
+        System.out.println("Notas da pós-graduação: " + posInvalida.getNotas());
+        System.out.println("Situacao: " + posInvalida.getSituacao());
+        System.out.println("------------------------------------------------------------");
+
+        // 3. Nota invalido na graduação
+        Aluno gradInvalida = AlunoFactory.criar("GRADUACAO","2026012","Grace Hopper");
+        gradInvalida.lancarNota("9.5");
+        gradInvalida.lancarNota("8.6");
+
+        System.out.println("Notas da raduação: " + gradInvalida.getNotas());
+        System.out.println("Situacao: " + gradInvalida.getSituacao());
+        System.out.println("------------------------------------------------------------");
+
+        // 3. Nota maior que 10
+        Aluno graduacaoInvalida = AlunoFactory.criar("GRADUACAO","2026013","Carl Sagan");
+        graduacaoInvalida.lancarNota("11");
+
+        System.out.println("Notas da graduação: " + graduacaoInvalida.getNotas());
+        System.out.println("------------------------------------------------------------");
+
+        // 4. Texto que não é número
+        graduacaoInvalida.lancarNota("abc");
+
+        System.out.println("Notas da graduação após texto invalido: "
+                        + graduacaoInvalida.getNotas()
+        );
+        System.out.println("------------------------------------------------------------");
+
+        // 5. Nota em excesso
+
+        graduacaoInvalida.lancarNota("8");
+        graduacaoInvalida.lancarNota("7");
+        graduacaoInvalida.lancarNota("6");
+        graduacaoInvalida.lancarNota("9");
+
+        System.out.println("Notas finais da graduação: " + graduacaoInvalida.getNotas());
+        System.out.println("------------------------------------------------------------");
+
+        // 6. Conceito em excesso na pós-graduação
+        Aluno posExcesso = AlunoFactory.criar("POS","2026014","Marie Curie");
+        posExcesso.lancarNota("A");
+        posExcesso.lancarNota("B");
+
+        System.out.println("Notas finais da pós-graduação: " + posExcesso.getNotas());
+        System.out.println("------------------------------------------------------------");
+
         System.out.println();
     }
 }

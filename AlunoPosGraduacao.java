@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * Aluno de pós-graduação (Especialização/Mestrado/Doutorado).
@@ -26,14 +27,20 @@ public class AlunoPosGraduacao extends Aluno {
         super(matricula, nome);
     }
 
-    // talvez essa classe esteja com problema
     @Override
     public void lancarNota(String valor) {
-        boolean isLetraValida = Arrays.asList(NOTAS).contains(valor.trim().toUpperCase());
+        if (valor == null) {
+            System.out.println(
+                    "[aviso] letra inválida (use uma letra de A a D). Nota ignorada: " + valor
+            );
+            return;
+        }
         if (getNotas().size() > 1) {
             System.out.println("[aviso] Cursos de Pós-graduação só aceitam uma única nota. Nota ignorada: " + valor);
             return;
         }
+
+        boolean isLetraValida = Arrays.asList(NOTAS).contains(valor.trim().toUpperCase());
         if (isLetraValida) {
             super.lancarNota(valor);
         } else {
@@ -43,7 +50,7 @@ public class AlunoPosGraduacao extends Aluno {
     }
 
     private String getConceito() {
-        if (getNotas().size() > 0) {
+        if (!getNotas().isEmpty()) {
             return getNotas().getFirst();
         }
         return "-";
@@ -51,13 +58,13 @@ public class AlunoPosGraduacao extends Aluno {
 
     @Override
     public String getSituacao() {
-        if (getConceito() == "A" || getConceito() == "B") {
+        if ("A".equals(getConceito()) || "B".equals(getConceito())) {
             return APROVADO;
         }
-        if (getConceito() == "C") {
+        if ("C".equals(getConceito())) {
             return RECUPERACAO;
         }
-        if (getConceito() == "D") {
+        if ("D".equals(getConceito())) {
             return REPROVADO;
         }
         // achei melhor deixar como NAO_AVALIADO mesmo
@@ -80,7 +87,7 @@ public class AlunoPosGraduacao extends Aluno {
         if (getMesesDecorridos() == 1) {
             return 1;
         }
-        return getMesesDecorridos();
+        return getMesesDecorridos() + 1;
     }
 
     @Override
